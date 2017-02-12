@@ -64,7 +64,7 @@ var locales = {
         deleteClusterError: 'Clusters cannot be deleted.',
         editClusterError: 'Clusters cannot be edited.'
     }
-}
+};
 
 var options = {
     autoResize: true,
