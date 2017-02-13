@@ -478,7 +478,7 @@ aside h3 {
   .wrapper {
     min-height: 100%;
     margin-bottom: -344px;
-    /* stejná výška jako patička */ 
+    /* stejná výška jako patička */
   }
   .wrapper:after {
     content: "";
