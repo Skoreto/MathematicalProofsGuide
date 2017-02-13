@@ -96,36 +96,133 @@ var containerContext = container.getContext("2d");
 containerContext.font = "20px Georgia";
 containerContext.fillText("Konstrukce grafu G-e", 10, 50);
 
-
-var continueFrames;
+// Promenne animaci
+var intervalId;
 var frame1Id;
 var frame2Id;
 var frame3Id;
 var frame4Id;
 var frame5Id;
 var frame6Id;
-var interval1Id;
+var frame7Id;
+var frame8Id;
+var frame9Id;
+var frame10Id;
+var frame11Id;
+var frame12Id;
 
 function nextStep() {
 
-    if (currentStep == 2) {
-        currentStep++;
-        $("#spCurrentStep").text(currentStep);
+    /**
+     * Metoda pro update grafu do vychoziho stavu.
+     */
+    function updateToDefaultGraph() {
+        nodes.update({ id: 1, color: { background: '#ffff08' } });
+        edges.update({ id: 1, color: '#000000', width: 1, arrows: '' });
+        nodes.update({ id: 2, color: { background: '#ffff08' } });
+        edges.update({ id: 2, color: '#000000', width: 1, arrows: '' });
+        nodes.update({ id: 3, color: { background: '#ffff08' } });
+    }
 
-        continueFrames = false;
-        clearInterval(interval1Id);
+    /**
+     * Metoda pro zastaveni vsech casovacu spousteni framu animaci.
+     * Zastavi veskere bezici animace.
+     */
+    function clearAllTimers() {
+        clearInterval(intervalId);
         clearTimeout(frame1Id);
         clearTimeout(frame2Id);
         clearTimeout(frame3Id);
         clearTimeout(frame4Id);
         clearTimeout(frame5Id);
         clearTimeout(frame6Id);
+        clearTimeout(frame7Id);
+        clearTimeout(frame8Id);
+        clearTimeout(frame9Id);
+        clearTimeout(frame10Id);
+        clearTimeout(frame11Id);
+        clearTimeout(frame12Id);
+    }
 
-        nodes.update({ id: 1, color: { background: '#ffff08' } });
-        edges.update({ id: 1, color: '#000000', width: 2, arrows: '' });
-        nodes.update({ id: 2, color: { background: '#ffff08' } });
-        edges.update({ id: 2, color: '#000000', width: 2, arrows: '' });
-        nodes.update({ id: 3, color: { background: '#ffff08' } });
+    if (currentStep == 2) {
+        currentStep++;
+        $("#spCurrentStep").text(currentStep);
+
+        clearAllTimers();
+        updateToDefaultGraph();
+        framesA2();
+        // Opakovane spusti framesA2() kazdych 13 sekund
+        intervalId = setInterval(framesA2, 13000);
+
+        function framesA2() {
+            // Spusti frame1() jednorazove po uplynuti sekundy
+            frame1Id = setTimeout(frame1, 1000);
+
+            function frame1() {
+                nodes.update({ id: 1, color: { background: '#D1C4E9' } });
+                frame2Id = setTimeout(frame2, 1000);
+            }
+
+            function frame2() {
+                edges.update({ id: 1, color: '#D1C4E9', width: 2, arrows: 'to' });
+                frame3Id = setTimeout(frame3, 1000);
+            }
+
+            function frame3() {
+                nodes.update({ id: 2, color: { background: '#D1C4E9' } });
+                edges.update({ id: 1, arrows: '' });
+                frame4Id = setTimeout(frame4, 1000);
+            }
+
+            // Znovu obarvit prostredni uzel W tmaveji
+            function frame4() {
+                nodes.update({ id: 2, color: { background: '#B39DDB' } });
+                frame5Id = setTimeout(frame5, 1000);
+            }
+
+            function frame5() {
+                edges.update({ id: 1, color: '#B39DDB', width: 2, arrows: 'from' });
+                frame6Id = setTimeout(frame6, 1000);
+            }
+
+            function frame6() {
+                nodes.update({ id: 1, color: { background: '#B39DDB' } });
+                edges.update({ id: 1, arrows: '' });
+                frame7Id = setTimeout(frame7, 1000);
+            }
+
+            // Znovu obarvit uzel U tmaveji
+            function frame7() {
+                nodes.update({ id: 1, color: { background: '#9575CD' } });
+                frame8Id = setTimeout(frame8, 1000);
+            }
+
+            function frame8() {
+                edges.update({ id: 1, color: '#9575CD', width: 2, arrows: 'to' });
+                frame9Id = setTimeout(frame9, 1000);
+            }
+
+            function frame9() {
+                nodes.update({ id: 2, color: { background: '#9575CD' } });
+                edges.update({ id: 1, arrows: '' });
+                frame10Id = setTimeout(frame10, 1000);
+            }
+
+            function frame10() {
+                edges.update({ id: 2, color: '#9575CD', width: 2, arrows: 'to' });
+                frame11Id = setTimeout(frame11, 1000);
+            }
+
+            function frame11() {
+                nodes.update({ id: 3, color: { background: '#9575CD' } });
+                edges.update({ id: 2, arrows: '' });
+                frame12Id = setTimeout(frame12, 2000);
+            }
+
+            function frame12() {
+                updateToDefaultGraph()
+            }
+        }
 
         $("#pCurrent").append(" a $S_2 = (u,e_1,w,e_1,u,e_1,w,e_2,v)$");
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
@@ -135,54 +232,46 @@ function nextStep() {
         currentStep++;
         $("#spCurrentStep").text(currentStep);
 
-        continueFrames = true;
-        frames();
+        clearAllTimers();
+        framesA1();
+        // Opakovane spusti framesA1() kazdych 7 sekund
+        intervalId = setInterval(framesA1, 7000);
 
-        // Spusti runFramesAgain() kazdych 7 sekund
-        interval1Id = setInterval(runFramesAgain, 6000);
-        function runFramesAgain() {
-            if (continueFrames)
-                frames()
-        }
-
-        function frames() {
+        function framesA1() {
             // Spusti frame1() jednorazove po uplynuti sekundy
             frame1Id = setTimeout(frame1, 1000);
 
             function frame1() {
-                nodes.update({ id: 1, color: { background: '#FF22FF' } });
+                nodes.update({ id: 1, color: { background: '#9575CD' } });
                 frame2Id = setTimeout(frame2, 1000);
             }
 
             function frame2() {
-                edges.update({ id: 1, color: '#FF22FF', width: 2, arrows: 'to' });
+                edges.update({ id: 1, color: '#9575CD', width: 2, arrows: 'to' });
                 frame3Id = setTimeout(frame3, 1000);
             }
 
             function frame3() {
-                nodes.update({ id: 2, color: { background: '#FF22FF' } });
+                nodes.update({ id: 2, color: { background: '#9575CD' } });
+                edges.update({ id: 1, arrows: '' });
                 frame4Id = setTimeout(frame4, 1000);
             }
 
             function frame4() {
-                edges.update({ id: 2, color: '#FF22FF', width: 2, arrows: 'to' });
+                edges.update({ id: 2, color: '#9575CD', width: 2, arrows: 'to' });
                 frame5Id = setTimeout(frame5, 1000);
             }
 
             function frame5() {
-                nodes.update({ id: 3, color: { background: '#FF22FF' } });
-                frame6Id = setTimeout(frame6, 1000);
+                nodes.update({ id: 3, color: { background: '#9575CD' } });
+                edges.update({ id: 2, arrows: '' });
+                frame6Id = setTimeout(frame6, 2000);
             }
 
             function frame6() {
-                nodes.update({ id: 1, color: { background: '#ffff08' } });
-                edges.update({ id: 1, color: '#000000', width: 2, arrows: '' });
-                nodes.update({ id: 2, color: { background: '#ffff08' } });
-                edges.update({ id: 2, color: '#000000', width: 2, arrows: '' });
-                nodes.update({ id: 3, color: { background: '#ffff08' } });
+                updateToDefaultGraph()
             }
         }
-
 
         $("#proofBox").append("<br /><p>Existují dva různé $u$-$v$ sledy:</p>");
         $("#proofBox").append("<p id=\"pCurrent\">$S_1 = (u,e_1,w,e_2,v)$</p>");
@@ -194,6 +283,7 @@ function nextStep() {
         $("#spCurrentStep").text(currentStep);
         $('#btnPreviousStep').prop('disabled', false);
 
+        // Vytvoreni vychoziho grafu
         nodes.add({ id: 1, label: 'u', x: -200, y: 0, fixed: isFixed,
             color: { background: '#ffff08', border: '#000000' } });
         nodes.add({ id: 2, label: 'w', x: 0, y: 0, fixed: isFixed,
@@ -201,8 +291,8 @@ function nextStep() {
         nodes.add({ id: 3, label: 'v', x: 200, y: 0, fixed: isFixed,
             color: { background: '#ffff08', border: '#000000' } });
 
-        edges.add({ id: 1, from: 1, to: 2, label: '           e1', font: { align: 'bottom' }});
-        edges.add({ id: 2, from: 2, to: 3, label: '           e2', font: { align: 'bottom' }});
+        edges.add({ id: 1, from: 1, to: 2, label: '                     e1', font: { align: 'bottom' }});
+        edges.add({ id: 2, from: 2, to: 3, label: '                     e2', font: { align: 'bottom' }});
 
         $("#proofBox").empty();
         $("#proofBox").append("<p class=\"text-red\"><b>Tvrzení:<b></p>");
