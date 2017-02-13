@@ -96,26 +96,36 @@ var containerContext = container.getContext("2d");
 containerContext.font = "20px Georgia";
 containerContext.fillText("Konstrukce grafu G-e", 10, 50);
 
+
+var continueFrames;
+var frame1Id;
+var frame2Id;
+var frame3Id;
+var frame4Id;
+var frame5Id;
+var frame6Id;
+var interval1Id;
+
 function nextStep() {
-    var frame0Id;
-    var frame1Id;
-    var frame2Id;
-    var frame3Id;
-    var frame4Id;
-    var frame5Id;
-    var continueFrames = true;
 
     if (currentStep == 2) {
         currentStep++;
         $("#spCurrentStep").text(currentStep);
 
-        clearTimeout(frame0Id);
+        continueFrames = false;
+        clearInterval(interval1Id);
         clearTimeout(frame1Id);
         clearTimeout(frame2Id);
         clearTimeout(frame3Id);
         clearTimeout(frame4Id);
         clearTimeout(frame5Id);
-        continueFrames = false;
+        clearTimeout(frame6Id);
+
+        nodes.update({ id: 1, color: { background: '#ffff08' } });
+        edges.update({ id: 1, color: '#000000', width: 2, arrows: '' });
+        nodes.update({ id: 2, color: { background: '#ffff08' } });
+        edges.update({ id: 2, color: '#000000', width: 2, arrows: '' });
+        nodes.update({ id: 3, color: { background: '#ffff08' } });
 
         $("#pCurrent").append(" a $S_2 = (u,e_1,w,e_1,u,e_1,w,e_2,v)$");
         MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
@@ -125,64 +135,53 @@ function nextStep() {
         currentStep++;
         $("#spCurrentStep").text(currentStep);
 
+        continueFrames = true;
+        frames();
 
-        // Spusti frames() kazdou 1 sekundu
-        // var intervalId = setInterval(frames, 100);
-        // function frames() {
+        // Spusti runFramesAgain() kazdych 7 sekund
+        interval1Id = setInterval(runFramesAgain, 6000);
+        function runFramesAgain() {
+            if (continueFrames)
+                frames()
+        }
 
-
-        // Spusti frame1() jednorazove po uplynuti sekundy
-        frame0Id = setTimeout(frame0, 1000);
-
-        function frame0() {
-            clearTimeout(frame0Id);
-            nodes.update({ id: 1, color: { background: '#FF22FF' } });
+        function frames() {
+            // Spusti frame1() jednorazove po uplynuti sekundy
             frame1Id = setTimeout(frame1, 1000);
+
+            function frame1() {
+                nodes.update({ id: 1, color: { background: '#FF22FF' } });
+                frame2Id = setTimeout(frame2, 1000);
+            }
+
+            function frame2() {
+                edges.update({ id: 1, color: '#FF22FF', width: 2, arrows: 'to' });
+                frame3Id = setTimeout(frame3, 1000);
+            }
+
+            function frame3() {
+                nodes.update({ id: 2, color: { background: '#FF22FF' } });
+                frame4Id = setTimeout(frame4, 1000);
+            }
+
+            function frame4() {
+                edges.update({ id: 2, color: '#FF22FF', width: 2, arrows: 'to' });
+                frame5Id = setTimeout(frame5, 1000);
+            }
+
+            function frame5() {
+                nodes.update({ id: 3, color: { background: '#FF22FF' } });
+                frame6Id = setTimeout(frame6, 1000);
+            }
+
+            function frame6() {
+                nodes.update({ id: 1, color: { background: '#ffff08' } });
+                edges.update({ id: 1, color: '#000000', width: 2, arrows: '' });
+                nodes.update({ id: 2, color: { background: '#ffff08' } });
+                edges.update({ id: 2, color: '#000000', width: 2, arrows: '' });
+                nodes.update({ id: 3, color: { background: '#ffff08' } });
+            }
         }
-
-        function frame1() {
-            clearTimeout(frame1Id);
-            edges.update({ id: 1, color: '#FF22FF', width: 2, arrows: 'to' });
-            frame2Id = setTimeout(frame2, 1000);
-        }
-
-        function frame2() {
-            clearTimeout(frame2Id);
-            nodes.update({ id: 2, color: { background: '#FF22FF' } });
-            frame3Id = setTimeout(frame3, 1000);
-        }
-
-        function frame3() {
-            clearTimeout(frame3Id);
-            edges.update({ id: 2, color: '#FF22FF', width: 2, arrows: 'to' });
-            frame4Id = setTimeout(frame4, 1000);
-        }
-
-        function frame4() {
-            clearTimeout(frame4Id);
-            nodes.update({ id: 3, color: { background: '#FF22FF' } });
-            frame5Id = setTimeout(frame5, 1000);
-        }
-
-        function frame5() {
-            clearTimeout(frame5Id);
-            nodes.update({ id: 1, color: { background: '#ffff08' } });
-            edges.update({ id: 1, color: '#000000', width: 2, arrows: '' });
-            nodes.update({ id: 2, color: { background: '#ffff08' } });
-            edges.update({ id: 2, color: '#000000', width: 2, arrows: '' });
-            nodes.update({ id: 3, color: { background: '#ffff08' } });
-
-            if(continueFrames)
-            frame0Id = setTimeout(frame0, 1000);
-        }
-
-            // if (pos == 10) {
-            //     clearInterval(id);
-            // } else {
-            //     pos++;
-            //     nodes.update({ id: 1, label: '5', color: { background: '#FF22FF' } });
-            // }
-        // }
 
 
         $("#proofBox").append("<br /><p>Existují dva různé $u$-$v$ sledy:</p>");
