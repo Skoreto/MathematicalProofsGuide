@@ -31,3 +31,12 @@
     height: 400px;
     border: 1px solid lightgray;
 }
+#divNetworkDescription {
+    width: 650px;
+    margin-top: 10px;
+    /*border: 1px solid lightgray;*/
+}
+#divNetworkDescription p {
+    /*border: 1px solid lightgray;*/
+    text-align: center;
+}

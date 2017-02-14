@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Příklad 17a | Vizualizace důkazů</title>
+    <title>Příklad 20 | Vizualizace důkazů</title>
     <link href="content/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="content/css/customMainTheme.css" rel="stylesheet" type="text/css"/>
     <link href="content/css/main.css" rel="stylesheet" type="text/css"/>
@@ -45,7 +45,7 @@
         </div>
         <div class="navbar-collapse collapse" id="navbar-collapse">
             <ul class="nav navbar-nav">
-                <li class="nav-item active dropdown">
+                <li class="nav-item dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0"
                        data-close-others="false" href="#">Veškeré důkazy <i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
@@ -54,7 +54,7 @@
                         <li><a href="proof20.html">Příklad 20</a></li>
                     </ul>
                 </li>
-                <li class="nav-item dropdown">
+                <li class="nav-item active dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="0"
                        data-close-others="false" href="#">Důkazy přímo <i class="fa fa-angle-down"></i></a>
                     <ul class="dropdown-menu">
@@ -83,12 +83,12 @@
 <div class="container">
     <div class="page-wrapper">
         <header class="page-heading clearfix">
-            <h1 class="heading-title pull-left">Příklad 17 a)</h1>
+            <h1 class="heading-title pull-left">Příklad 20</h1>
             <!-- ==== DROBEČKOVÁ NAVIGACE ==== -->
             <div class="breadcrumbs pull-right">
                 <ul class="breadcrumbs-list">
                     <li class="breadcrumbs-label">Nacházíte se zde: </li>
-                    <li class="current"> Příklady</li>
+                    <li class="current"> Důkazy přímo</li>
                 </ul>
             </div>
         </header>
@@ -96,6 +96,7 @@
             <div class="row page-row">
                 <main role="main" class="news col-lg-6 col-md-5 col-sm-5">
                     <div id="mynetwork"></div>
+                    <div id="divNetworkDescription"></div>
 
                     <br/>
                     <br/>
@@ -104,25 +105,27 @@
                 <!-- ==== POSTRANNÍ PANEL ==== -->
                 <aside role="complementary" class="page-sidebar col-lg-5 col-md-5 col-sm-5 col-lg-offset-1 ">
                     <div class="bg-info" id="definition">
-                        Dokažte, nebo vyvraťte: když v grafu $G$ existují dva různé $u$-$v$ sledy,
-                        tak $G$ obsahuje kružnici.
+                        Nechť $G$ je souvislý graf. Jestliže $e$ není most v $G$, pak v $G$ existuje kružnice
+                        obsahující hranu $e$. Dokažte přímo.
                     </div>
 
                     <br/>
 
                     <div id="divProofContainer" hidden="hidden">
-                        <h3>Důkaz</h3>
-                        <div class="bg-warning" id="proofBox">
-                        </div>
+                        <h3>Důkaz přímo</h3>
+                        <div class="bg-warning" id="proofBox"></div>
                     </div>
 
                     <br/>
+
                     <button class="btn btn-default" id="btnPreviousStep"
-                            onclick="previousStep();" disabled="disabled">Předchozí krok</button>
+                            onclick="previousStep();" disabled="disabled">
+                        <i class="fa fa-caret-left"></i> Předchozí krok</button>
                     <span id="spCurrentStep">0</span>
                     <span>/</span>
-                    <span id="spStepSum">3</span>
-                    <button class="btn btn-default" id="btnNextStep" onclick="nextStep();">Další krok</button>
+                    <span id="spStepSum">6</span>
+                    <button class="btn btn-default" id="btnNextStep" onclick="nextStep();">
+                        Další krok <i class="fa fa-caret-right"></i></button>
                 </aside>
             </div>
         </div>
@@ -194,7 +197,7 @@
         tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
         });
     </script>
-<script type="text/javascript" src="content/js/proof17a.js" charset="utf-8"></script>
+<script type="text/javascript" src="content/js/proof20.js" charset="utf-8"></script>
 <script src="content/js/jquery-3.1.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="content/js/bootstrap.min.js"></script>

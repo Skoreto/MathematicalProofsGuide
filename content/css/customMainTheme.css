@@ -486,6 +486,9 @@ aside h3 {
     height: 324px;
     /* musí mít stejnou výšku jako patička */ 
   }
+  .page-wrapper {
+      min-height: 600px;
+  }
   .footer {
     height: 324px;
     /* musí mít stejnou výšku jako patička */ 
