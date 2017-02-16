@@ -214,8 +214,6 @@ function step1() {
 
     $("#proofBox").append("<p>Pokud $e=\\{x,y\\}$ není most v $G$, poté z definice mostu platí, že graf $G-e$ má " +
         "stejný počet komponent jako $G$ a platí:</p>");
-    $("#proofBox").append("<p>$\\forall u,v \\in V(G):$ Když existuje $u-v$ cesta $P$ v $G$, tak existuje " +
-        "$u-v$ cesta $P'$ v $G-e$ (pozn.: $P'$ se nemusí nutně $=P$)</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
     $("#divNetworkDescription").append("<p>Sestrojení příkladu grafu $G$</p>");
@@ -229,6 +227,10 @@ function step2() {
     nodes.update({ id: 4, label: 'y' });
     nodes.update({ id: 5, label: 'v' });
     edges.update({ id: 3, label: '                  e', font: { align: 'top', size: 18 } });
+
+    $("#proofBox").append("<p>$\\forall u,v \\in V(G):$ Když existuje $u-v$ cesta $P$ v $G$, tak existuje " +
+        "$u-v$ cesta $P'$ v $G-e$ (pozn.: $P'$ se nemusí nutně $=P$)</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
     $("#divNetworkDescription").empty();
     $("#divNetworkDescription").append("<p>Zvolení hrany $e$ a libovolných vrcholů $u$ a $v$</p>");
@@ -320,7 +322,7 @@ function step5() {
     edges.update({ id: 10, color: '#81C784', width: 2 });
 
 
-    $("#proofBox").append("<p>$\\implies \\exists x-y$ cesta $P_{xy}$ v $G-e$</p>");
+    $("#proofBox").append("<br /><p>$\\implies \\exists$ $x-y$ cesta $P_{xy}$ v $G-e$</p>");
     $("#proofBox").append("<p>$\\implies x-y$ cesta $P_{xy}$ se nachází i v $G$ (protože $G$ vznikne z $G-e$ " +
         "přidáním hrany $e$)</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
@@ -357,8 +359,9 @@ function step6() {
     };
     network.moveTo(options);
 
-    $("#proofBox").append("<p>$\\implies$ Poté z definice kružnice platí, že $x-y$ cesta $P_{xy}$ spolu s hranou " +
+    $("#proofBox").append("<br /><p>$\\implies$ Poté z definice kružnice platí, že $x-y$ cesta $P_{xy}$ spolu s hranou " +
         "$e=\\{x,y\\}$ tvoří kružnici v $G$ obsahující hranu $e$.</p>");
+    $("#proofBox").append("<br /><p class=\"text-center\">$\\dagger$ Tím je dokázáno stanovené tvrzení.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
     $("#divNetworkDescription").empty();
