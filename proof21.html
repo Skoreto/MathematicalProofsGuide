@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Příklad 20 | Vizualizace důkazů</title>
+    <title>Příklad 21 | Vizualizace důkazů</title>
     <link href="content/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="content/css/customMainTheme.css" rel="stylesheet" type="text/css"/>
     <link href="content/css/main.css" rel="stylesheet" type="text/css"/>
@@ -85,7 +85,7 @@
 <div class="container">
     <div class="page-wrapper">
         <header class="page-heading clearfix">
-            <h1 class="heading-title pull-left">Příklad 20</h1>
+            <h1 class="heading-title pull-left">Příklad 21</h1>
             <!-- ==== DROBEČKOVÁ NAVIGACE ==== -->
             <div class="breadcrumbs pull-right">
                 <ul class="breadcrumbs-list">
@@ -107,14 +107,14 @@
                 <!-- ==== POSTRANNÍ PANEL ==== -->
                 <aside role="complementary" class="page-sidebar col-lg-5 col-md-5 col-sm-5 col-lg-offset-1 ">
                     <div class="bg-info" id="definition">
-                        Nechť $G$ je souvislý graf. Jestliže $e$ není most v $G$, pak v $G$ existuje kružnice
-                        obsahující hranu $e$. Dokažte přímo.
+                        Nechť $G$ je graf. Jestliže v $G$ neexistuje kružnice, pak každá hrana v $G$ je most.
+                        Dokažte nepřímo.
                     </div>
 
                     <br/>
 
                     <div id="divProofContainer" hidden="hidden">
-                        <h3>Důkaz přímo</h3>
+                        <h3>Důkaz nepřímo</h3>
                         <div class="bg-warning" id="proofBox"></div>
                     </div>
 
@@ -125,7 +125,7 @@
                         <i class="fa fa-caret-left"></i> Předchozí krok</button>
                     <span id="spCurrentStep">0</span>
                     <span>/</span>
-                    <span id="spStepSum">6</span>
+                    <span id="spStepSum">7</span>
                     <button class="btn btn-default" id="btnNextStep" onclick="nextStep();">
                         Další krok <i class="fa fa-caret-right"></i></button>
                 </aside>
@@ -199,7 +199,7 @@
         tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
         });
     </script>
-<script type="text/javascript" src="content/js/proof20.js" charset="utf-8"></script>
+<script type="text/javascript" src="content/js/proof21.js" charset="utf-8"></script>
 <script src="content/js/jquery-3.1.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->
 <script type="text/javascript" src="content/js/bootstrap.min.js"></script>

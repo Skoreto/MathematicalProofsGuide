@@ -89,7 +89,7 @@ var frame1Id;
 var frame2Id;
 
 function nextStep() {
-    if (currentStep <= 5) {
+    if (currentStep <= 6) {
         if (currentStep == 0) {
             $('#btnPreviousStep').prop('disabled', false);
             $('#divProofContainer').prop('hidden', false);
@@ -113,8 +113,12 @@ function nextStep() {
         }
 
         if (currentStep == 5) {
-            $('#btnNextStep').prop('disabled', true);
             step6();
+        }
+
+        if (currentStep == 6) {
+            $('#btnNextStep').prop('disabled', true);
+            step7();
         }
 
         currentStep++;
@@ -157,6 +161,15 @@ function previousStep() {
         }
 
         if (currentStep == 6) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+            step5();
+        }
+
+        if (currentStep == 7) {
             $('#btnNextStep').prop('disabled', false);
             clearAllTimers();
             stepReset();
@@ -165,6 +178,7 @@ function previousStep() {
             step3();
             step4();
             step5();
+            step6();
         }
 
         currentStep--;
@@ -182,6 +196,12 @@ function stepReset() {
 }
 
 function step1() {
+    $("#proofBox").append("<p>Dokážeme následující: <span class=\"text-blue\">Jestliže existuje hrana v $G$, " +
+        "která není most, pak v $G$ existuje kružnice.</span> Toto dokážeme <u>přímo</u>:</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+}
+
+function step2() {
     // Vytvoreni grafu G
     nodes.add({ id: 1, x: -180, y: -40, fixed: isFixed,
         color: { background: '#ffff08', border: '#000000' } });
@@ -212,17 +232,15 @@ function step1() {
     };
     network.moveTo(options);
 
-    $("#proofBox").append("<p>Pokud $e=\\{x,y\\}$ není most v $G$, poté z definice mostu platí, že graf $G-e$ má " +
-        "stejný počet komponent jako $G$ a platí:</p>");
-    $("#proofBox").append("<p>$\\forall u,v \\in V(G):$ Když existuje $u-v$ cesta $P$ v $G$, tak existuje " +
-        "$u-v$ cesta $P'$ v $G-e$ (pozn.: $P'$ se nemusí nutně $=P$)</p>");
+    $("#proofBox").append("<p>Existuje $e=\\{x,y\\}$, která není most v $G$ $\\Rightarrow$ poté z definice mostu " +
+        "graf $G-e$ má stejný počet komponent jako $G$ a platí: </p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
     $("#divNetworkDescription").append("<p>Sestrojení příkladu grafu $G$</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
-function step2() {
+function step3() {
     // Zvoleni hrany E a vrcholu U a V
     nodes.update({ id: 1, label: 'u' });
     nodes.update({ id: 2, label: 'x' });
@@ -230,12 +248,16 @@ function step2() {
     nodes.update({ id: 5, label: 'v' });
     edges.update({ id: 3, label: '                  e', font: { align: 'top', size: 18 } });
 
+    $("#proofBox").append("<p>$\\forall u,v \\in V(G):$ Když existuje $u-v$ cesta $P$ v $G$, tak existuje " +
+        "$u-v$ cesta $P'$ v $G-e$ (pozn.: $P'$ se nemusí nutně $=P$)</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
     $("#divNetworkDescription").empty();
     $("#divNetworkDescription").append("<p>Zvolení hrany $e$ a libovolných vrcholů $u$ a $v$</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
-function step3() {
+function step4() {
     // Vyznaceni cesty P mezi U-V v G
     nodes.update({ id: 1, color: { background: '#B39DDB' } });
     nodes.update({ id: 2, color: { background: '#B39DDB' } });
@@ -250,7 +272,7 @@ function step3() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
-function step4() {
+function step5() {
     // Vytvoreni grafu G-e
     nodes.add({ id: 6, x: 200, y: -40, label: 'u', fixed: isFixed,
         color: { background: '#ffff08', border: '#000000' } });
@@ -297,7 +319,7 @@ function step4() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
-function step5() {
+function step6() {
     resetGToDefault();
     // Vyznaceni cesty X-Y v grafu G
     nodes.update({ id: 2, label: 'x', color: { background: '#81C784' } });
@@ -320,8 +342,8 @@ function step5() {
     edges.update({ id: 10, color: '#81C784', width: 2 });
 
 
-    $("#proofBox").append("<p>$\\implies \\exists x-y$ cesta $P_{xy}$ v $G-e$</p>");
-    $("#proofBox").append("<p>$\\implies x-y$ cesta $P_{xy}$ se nachází i v $G$ (protože $G$ vznikne z $G-e$ " +
+    $("#proofBox").append("<br /><p>$\\Rightarrow \\exists$ $x-y$ cesta $P_{xy}$ v $G-e$</p>");
+    $("#proofBox").append("<p>$\\Rightarrow x-y$ cesta $P_{xy}$ se nachází i v $G$ (protože $G$ vznikne z $G-e$ " +
         "přidáním hrany $e$)</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
@@ -331,7 +353,7 @@ function step5() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
-function step6() {
+function step7() {
     // Animace dokonceni kruznice na hrane e
     frame1Id = setTimeout(frame1, 1000);
 
@@ -357,13 +379,13 @@ function step6() {
     };
     network.moveTo(options);
 
-    $("#proofBox").append("<p>$\\implies$ Poté z definice kružnice platí, že $x-y$ cesta $P_{xy}$ spolu s hranou " +
+    $("#proofBox").append("<br /><p>$\\Rightarrow$ Poté z definice kružnice platí, že $x-y$ cesta $P_{xy}$ spolu s hranou " +
         "$e=\\{x,y\\}$ tvoří kružnici v $G$ obsahující hranu $e$.</p>");
+    $("#proofBox").append("<br /><p class=\"text-center\">$\\dagger$ Tím bylo dokázáno původní tvrzení.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
     $("#divNetworkDescription").empty();
-    $("#divNetworkDescription").append("<p>Cesta $P_{xy}$ spolu s hranou $e=\\{x,y\\}$ tvoří kružnici " +
-        "v $G$ obsahující hranu $e$</p>");
+    $("#divNetworkDescription").append("<p>Cesta $P_{xy}$ spolu s hranou $e=\\{x,y\\}$ tvoří kružnici v $G$.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
