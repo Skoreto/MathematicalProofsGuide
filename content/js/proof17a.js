@@ -173,6 +173,9 @@ function step1() {
     $("#proofBox").append("<p>Když v grafu $G$ existují dva různé $u$-$v$ sledy, tak $G$ obsahuje kružnici.</p>");
     $("#proofBox").append("<p class=\"text-blue\">Neplatí, protože existuje kontrapříklad.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").append("<p>Příklad grafu $G$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
 function step2() {
@@ -220,6 +223,10 @@ function step2() {
     $("#proofBox").append("<br /><p>Existují dva různé $u$-$v$ sledy:</p>");
     $("#proofBox").append("<p id=\"pCurrent\">$S_1 = (u,e_1,w,e_2,v)$</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Konstrukce sledu $S_1 = (u,e_1,w,e_2,v)$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
 function step3() {
@@ -301,7 +308,12 @@ function step3() {
 
     $("#pCurrent").append(" a $S_2 = (u,e_1,w,e_1,u,e_1,w,e_2,v)$");
     $("#proofBox").append("<p>a graf $G$ neobsahuje kružnici.</p>");
+    $("#proofBox").append("<br /><p class=\"text-center\">$\\dagger$ Tím je vyvráceno stanovené tvrzení.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Konstrukce sledu $S_2 = (u,e_1,w,e_1,u,e_1,w,e_2,v)$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 }
 
 /**
