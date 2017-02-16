@@ -119,12 +119,17 @@
                     </div>
 
                     <br/>
-                    <button class="btn btn-default" id="btnPreviousStep"
-                            onclick="previousStep();" disabled="disabled">Předchozí krok</button>
-                    <span id="spCurrentStep">0</span>
-                    <span>/</span>
-                    <span id="spStepSum">3</span>
-                    <button class="btn btn-default" id="btnNextStep" onclick="nextStep();">Další krok</button>
+
+                    <div id="divStepButtons">
+                        <button class="btn btn-default" id="btnPreviousStep"
+                                onclick="previousStep();" disabled="disabled">
+                            <i class="fa fa-caret-left"></i> Předchozí krok</button>
+                        <span id="spCurrentStep">0</span>
+                        <span>/</span>
+                        <span id="spStepSum">3</span>
+                        <button class="btn btn-default" id="btnNextStep" onclick="nextStep();">
+                            Další krok <i class="fa fa-caret-right"></i></button>
+                    </div>
                 </aside>
             </div>
         </div>
@@ -195,7 +200,7 @@
         MathJax.Hub.Config({
         tex2jax: {inlineMath: [["$","$"],["\\(","\\)"]]}
         });
-    </script>
+</script>
 <script type="text/javascript" src="content/js/proof17a.js" charset="utf-8"></script>
 <script src="content/js/jquery-3.1.1.min.js"></script>
 <!-- Bootstrap Core JavaScript -->

@@ -307,7 +307,7 @@ function step3() {
     }
 
     $("#pCurrent").append(" a $S_2 = (u,e_1,w,e_1,u,e_1,w,e_2,v)$");
-    $("#proofBox").append("<p>a graf $G$ neobsahuje kružnici.</p>");
+    $("#proofBox").append("<p>a přitom graf $G$ neobsahuje kružnici.</p>");
     $("#proofBox").append("<br /><p class=\"text-center\">$\\dagger$ Tím je vyvráceno stanovené tvrzení.</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
 
