@@ -84,7 +84,6 @@ var network = new vis.Network(container, data, options);
 
 var currentStep = 0;
 // Promenne animace
-var intervalId;
 var frame1Id;
 var frame2Id;
 
