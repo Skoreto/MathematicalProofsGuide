@@ -24,13 +24,24 @@
     overflow-y: scroll;*/
 }
 .text-green {
-    color: green;
+    /*Green 800*/
+    color: #2E7D32;
 }
 .text-blue {
-    color: blue;
+    /*Blue A700*/
+    color: #2962FF;
+}
+.text-indigo {
+    /*Indigo 500*/
+    color: #3F51B5;
 }
 .text-red {
-    color: red;
+    /*Red A700*/
+    color: #D50000;
+}
+.text-brown {
+    /*Brown 500*/
+    color: #795548;
 }
 .text-center {
     text-align: center;

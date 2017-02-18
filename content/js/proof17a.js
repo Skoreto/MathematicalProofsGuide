@@ -346,5 +346,3 @@ function clearAllTimers() {
     clearTimeout(frame11Id);
     clearTimeout(frame12Id);
 }
-
-

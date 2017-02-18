@@ -1,53 +1,11 @@
 var isFixed = true;
 
-var nodes = new vis.DataSet([
-    { id: 1, label: '', x: -200, y: -100, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 2, label: '', x: -200, y: -30, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 3, label: '', x: -130, y: -65, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 4, label: '', x: -130, y: 30, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 5, label: '', x: -60, y: 70, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 6, label: '', x: -55, y: -115, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 7, label: '', x: -55, y: -30, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 8, label: '', x: 30, y: -115, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 9, label: '', x: 25, y: -35, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 10, label: '', x: 20, y: 65, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 11, label: '', x: 100, y: -55, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 12, label: '', x: 90, y: 25, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 13, label: '', x: 140, y: -145, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 14, label: '', x: 210, y: -65, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } },
-    { id: 15, label: '', x: 180, y: 0, fixed: isFixed, color: { background: '#ffff08', border: '#000000' } }
-]);
+var nodes = new vis.DataSet([]);
+var edges = new vis.DataSet([]);
 
-// create an array with edges
-var edges = new vis.DataSet([
-    { id: 1, from: 1, to: 3 },
-    { id: 2, from: 2, to: 3 },
-    { id: 3, from: 2, to: 4 },
-    { id: 4, from: 3, to: 4 },
-    { id: 5, from: 3, to: 6 },
-    { id: 6, from: 4, to: 5 },
-    { id: 7, from: 5, to: 10 },
-    { id: 8, from: 6, to: 7 },
-    { id: 9, from: 6, to: 8 },
-    { id: 10, from: 7, to: 10 },
-    { id: 11, from: 8, to: 9 },
-    { id: 12, from: 8, to: 11 },
-    { id: 13, from: 8, to: 13 },
-    { id: 14, from: 10, to: 12 },
-    { id: 15, from: 11, to: 12 },
-    { id: 16, from: 11, to: 14 },
-    { id: 17, from: 12, to: 15 },
-    { id: 18, from: 13, to: 14 },
-    { id: 19, from: 13, to: 15 },
-    { id: 20, from: 14, to: 15 }
-]);
-
-// create a network
+// Vytvori network
 var container = document.getElementById('mynetwork');
-var data = {
-    nodes: nodes,
-    edges: edges
-};
+var data = { nodes: nodes, edges: edges };
 var locales = {
     cs: {
         edit: 'Upravit',
@@ -125,237 +83,433 @@ var options = {
 var network = new vis.Network(container, data, options);
 
 var currentStep = 0;
-// var proofBox = document.getElementById("proofBox");
-
-var containerContext = container.getContext("2d");
-containerContext.font = "20px Georgia";
-containerContext.fillText("Konstrukce grafu G-e", 10, 50);
+// Promenne animace
+var frame1Id;
+var frame2Id;
 
 function nextStep() {
-    if (currentStep == 12) {
-        $('#btnNextStep').prop('disabled', true);
+    if (currentStep <= 9) {
+        if (currentStep == 0) {
+            $('#btnPreviousStep').prop('disabled', false);
+            $('#divProofContainer').prop('hidden', false);
+            step1();
+        }
 
-        $("#proofBox").empty();
-        $("#proofBox").append("<p class=\"text-center\">$\\forall u,v \\in V(G)$: jestliže $\\exists$ <span class=\"text-red\">$Pu,v$</span> obsauje $e$ v $G \\rightarrow$<br/>" +
-            "$\\rightarrow \\exists$ cesta <span class=\"text-red\">$P'u,v$</span> v $G-e$<br/>" +
-            "$\\downarrow$ <br/>počet komponent $G$ = počet komponent $G-e$<br/>" +
-            "$\\downarrow$ <br/>$e$ není most v $G$<br/><br/>" +
-            "Dostáváme spor s původním tvrzením.</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 11) {
+        if (currentStep == 1)
+            step2();
+
+        if (currentStep == 2)
+            step3();
+
+        if (currentStep == 3)
+            step4();
+
+        if (currentStep == 4)
+            step5();
+
+        if (currentStep == 5)
+            step6();
+
+        if (currentStep == 6)
+            step7();
+
+        if (currentStep == 7)
+            step8();
+
+        if (currentStep == 8) {
+            $('#btnNextStep').prop('disabled', true);
+            step9();
+        }
+
         currentStep++;
-
-        $("#proofBox").empty();
-        $("#proofBox").append("<p>2. $Pu,v$ <span class=\"text-red\">obsahující</span> hranu $e$ v $G$</p>");
-        $("#proofBox").append("<p><span class=\"text-blue\"><b>Platí tvrzení</b></span><br/>" +
-            "V grafu $G$ existuje cesta z vrcholu $v$ do vrcholu $w$ právě tehdy, když v grafu $G$ existuje sled z vrcholu $v$ do vrcholu $w$.</p>");
-        $("#proofBox").append("<p class=\"text-center\">$\\forall u,v \\in V(G)$: jestliže $\\exists$ <span class=\"text-red\">$Pu,v$</span> obsauje $e$ v $G \\rightarrow$<br/>" +
-            "$\\rightarrow \\exists$ sled <span class=\"text-red\">$Su,v$</span> v $G-e \\rightarrow$<br/>" +
-            "$\\rightarrow \\exists$ cesta <span class=\"text-red\">$P'u,v$</span> v $G-e$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+        $("#spCurrentStep").text(currentStep);
     }
-    if (currentStep == 10) {
-        currentStep++;
-
-        nodes.update({ id: 3, label: '4' });
-        nodes.update({ id: 4, label: '5', color: { background: '#04A304' } });
-        nodes.update({ id: 5, label: '6', color: { background: '#04A304' } });
-        nodes.update({ id: 6, label: '3' });
-        nodes.update({ id: 8, label: '2' });
-        nodes.update({ id: 11, label: '1' });
-
-        edges.update({ id: 4, from: 3, to: 4, color: '#82b0ff', width: 2 });
-        edges.update({ id: 5, from: 3, to: 6, color: '#82b0ff', width: 2 });
-        edges.update({ id: 9, from: 6, to: 8, color: '#82b0ff', width: 2 });
-        edges.update({ id: 12, from: 8, to: 11, color: '#82b0ff', width: 2 });
-        edges.update({ id: 14, hidden: true });
-        edges.update({ id: 15, from: 11, to: 12, color: '#82b0ff', width: 2 });
-        edges.add({ id: 21, from: 4, to: 5, color: '#82b0ff', width: 2, smooth: { enabled: true, roundness: 0.5 } });
-        edges.add({ id: 22, from: 5, to: 10, color: '#82b0ff', width: 2, smooth: { enabled: true, roundness: 0.5 } });
-
-        $("#proofBox").append("<p class=\"text-center\"><span class=\"text-red\">$S$</span> $= \\{v, x, 1, 2, 3, 4,$<span class=\"text-red\">$5, 6$</span>$, y,$<span class=\"text-red\">$6, 5$</span>$, u\\}$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 9) {
-        currentStep++;
-
-        nodes.update({ id: 1, label: '', color: { background: '#ffff08' } });
-        nodes.update({ id: 3, color: { background: '#04A304' } });
-        nodes.update({ id: 6, color: { background: '#04A304' } });
-        nodes.update({ id: 8, color: { background: '#04A304' } });
-        nodes.update({ id: 11, color: { background: '#04A304' } });
-        nodes.update({ id: 14, label: '', color: { background: '#ffff08' } });
-
-        edges.update({ id: 1, from: 1, to: 3, color: '#000000', width: 1 });
-        edges.update({ id: 5, from: 3, to: 6, color: '#04A304', width: 2 });
-        edges.update({ id: 9, from: 6, to: 8, color: '#04A304', width: 2 });
-        edges.update({ id: 12, from: 8, to: 11, color: '#04A304', width: 2 });
-        edges.update({ id: 16, from: 11, to: 14, color: '#000000', width: 1 });
-        edges.update({ id: 14, color: '#FF3636', width: 2, label: '           e', font: { align: 'bottom' }, title: "odebíraná hrana e", hidden: false });
-
-        nodes.update({ id: 2, label: 'U', color: { background: '#82b0ff' } });
-        nodes.update({ id: 4, color: { background: '#82b0ff' } });
-        nodes.update({ id: 5, color: { background: '#82b0ff' } });
-        nodes.update({ id: 15, label: 'V', color: { background: '#82b0ff' } });
-
-        edges.update({ id: 3, from: 2, to: 4, color: '#82b0ff', width: 2 });
-        edges.update({ id: 6, from: 4, to: 5, color: '#82b0ff', width: 2 });
-        edges.update({ id: 7, from: 5, to: 10, color: '#82b0ff', width: 2 });
-        edges.update({ id: 14, color: '#82b0ff', width: 2, hidden: false });
-        edges.update({ id: 17, from: 12, to: 15, color: '#82b0ff', width: 2 });
-
-        $("#proofBox").empty();
-        $("#proofBox").append("<p>2. $Pu,v$ <span class=\"text-red\">obsahující</span> hranu $e$ v $G$</p>");
-        $("#proofBox").append("<p class=\"text-center\">$\\forall u,v\\in V(G)$: jestliže $\\exists$<span class=\"text-red\">$Pu,v$</span> obsahuje $e$ v $G \\rightarrow \\exists$ sled <span class=\"text-red\">$S'u,v$</span> v $G-e$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 8) {
-        currentStep++;
-        edges.update({ id: 14, hidden: true });
-    }
-    if (currentStep == 7) {
-        currentStep++;
-
-        nodes.update({ id: 1, label: 'U', color: { background: '#82b0ff' } });
-        nodes.update({ id: 3, color: { background: '#82b0ff' } });
-        nodes.update({ id: 6, color: { background: '#82b0ff' } });
-        nodes.update({ id: 8, color: { background: '#82b0ff' } });
-        nodes.update({ id: 11, color: { background: '#82b0ff' } });
-        nodes.update({ id: 14, label: 'V', color: { background: '#82b0ff' } });
-
-        edges.update({ id: 1, from: 1, to: 3, color: '#82b0ff', width: 2 });
-        edges.update({ id: 5, from: 3, to: 6, color: '#82b0ff', width: 2 });
-        edges.update({ id: 9, from: 6, to: 8, color: '#82b0ff', width: 2 });
-        edges.update({ id: 12, from: 8, to: 11, color: '#82b0ff', width: 2 });
-        edges.update({ id: 16, from: 11, to: 14, color: '#82b0ff', width: 2 });
-        edges.update({ id: 14, color: '#FF3636', width: 2, label: '           e', font: { align: 'bottom' }, title: "odebíraná hrana e", hidden: false });
-
-        $("#proofBox").empty();
-        $("#proofBox").append("<p>1. $Pu,v$ <span class=\"text-red\">neobsahující</span> hranu $e$ v $G$</p>");
-        $("#proofBox").append("<p class=\"text-center\">$\\forall u,v\\in V(G)$: jestliže $\\exists$<span class=\"text-red\">$Pu,v$</span> neobsahuje $e$ v $G \\rightarrow \\exists$<span class=\"text-red\">$P'u,v$</span> v $G-e$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 6) {
-        currentStep++;
-        $("#proofBox").append("<p class=\"text-center\">$\\downarrow$ <br/>$\\forall u,v\\in V(G)$: jestliže $\\exists Pu,v$ v $G \\leftarrow \\exists$<span class=\"text-red\">$P'u,v$</span> v $G-e$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 5) {
-        currentStep++;
-        $("#switch1").empty();
-        $("#switch1").append("<span class=\"text-red\"><b>=</b></span>");
-    }
-    if (currentStep == 4) {
-        currentStep++;
-        $("#proofBox").append("<p class=\"text-center\">počet komponent $G$ <span id=\"switch1\" class=\"text-red text-center\"><b>?</b></span> počet komponent $G-e$</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-    if (currentStep == 3) {
-        currentStep++;
-        var options = {
-            position: { x: 0, y: 0 },
-            scale: 1.0,
-            offset: { x: 0, y: 0 },
-            animation: {
-                duration: 1000,
-                easingFunction: "easeInOutQuad"
-            }
-        };
-        network.moveTo(options);
-        edges.update({ id: 14, hidden: true });
-    }
-
-    if (currentStep == 2) {
-        currentStep++;
-        edges.update({ id: 14, color: '#0000FF', dashes: [5, 5] });
-    }
-
-    if (currentStep == 1) {
-        currentStep++;
-        var options = {
-            position: { x: 55, y: 30 },
-            scale: 1.4,
-            offset: { x: 0, y: 0 },
-            animation: {
-                duration: 1000,
-                easingFunction: "easeInOutQuad"
-            }
-        };
-        network.moveTo(options);
-
-        nodes.update({ id: 10, label: 'Y', color: { background: '#FF3636' } });
-        nodes.update({ id: 12, label: 'X', color: { background: '#FF3636' } });
-        edges.update({ id: 14, from: 10, to: 12, color: '#FF3636', width: 2, label: '           e', font: { align: 'bottom' }, title: "Hranu, která tvoří most, odebereme" });
-
-        $("#proofBox").empty();
-        $("#proofBox").append("<p ><span class=\"text-blue\"><b>Definice mostu</b></span><br/>" +
-            "Hranu $e$ nazveme <span class=\"text-red\">mostem</span>, jestliže graf $G - e$ má více komponent než graf $G$.<br/>" +
-            "Pokusíme se tudíž o konstrukci grafu $G-e$.</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    }
-
-    if (currentStep == 0) {
-        currentStep++;
-        $('#btnPreviousStep').prop('disabled', false);
-
-        nodes.update({ id: 3, color: { background: '#04A304' } });
-        nodes.update({ id: 4, color: { background: '#04A304' } });
-        nodes.update({ id: 5, color: { background: '#04A304' } });
-        nodes.update({ id: 6, color: { background: '#04A304' } });
-        nodes.update({ id: 8, color: { background: '#04A304' } });
-        nodes.update({ id: 11, color: { background: '#04A304' } });
-        nodes.update({ id: 10, color: { background: '#04A304' } });
-        nodes.update({ id: 12, color: { background: '#04A304' } });
-
-        edges.update({ id: 4, from: 3, to: 4, color: '04A304', width: 2 });
-        edges.update({ id: 5, from: 3, to: 6, color: '04A304', width: 2 });
-        edges.update({ id: 6, from: 4, to: 5, color: '04A304', width: 2 });
-        edges.update({ id: 7, from: 5, to: 10, color: '04A304', width: 2 });
-        edges.update({ id: 9, from: 6, to: 8, color: '04A304', width: 2 });
-        edges.update({ id: 12, from: 8, to: 11, color: '04A304', width: 2 });
-        edges.update({ id: 14, from: 10, to: 12, color: '04A304', width: 2 });
-        edges.update({ id: 15, from: 11, to: 12, color: '04A304', width: 2 });
-
-        $("#proofBox").empty();
-        $("#proofBox").append("<p class=\"text-red\"><b>Negace tvrzení<b></p>");
-        $("#proofBox").append("<p>Negaci implikace stanovíme jako $\\neg(\\forall (A \\rightarrow B)) \\longrightarrow (\\exists A \\wedge \\neg B)$</p>");
-        $("#proofBox").append("<p>Slovní interpretací $\\exists G$: <span class=\"text-red\">$e$ je most v $G$</span> <span class=\"text-blue\">a zároveň</span> v $G$ <span class=\"text-green\"><u>existuje</u> kružnice</span> obsahující hranu $e$.</p>");
-        MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-        // proofBox.scrollTop = proofBox.scrollHeight;
-    }
-
-    //if (currentStep == 0) {
-    //    currentStep++;
-    //    $('#btnPreviousStep').prop('disabled', false);
-
-    //    $("#proofBox").empty();
-    //    $("#proofBox").append("<p class=\"text-red\">Tvrzení</p>");
-    //    $("#proofBox").append("$\\forall G = (V, E)$: <span class=\"text-blue\">Jestliže</span> $e$ je most v $G$, " +
-    //        "<span class=\"text-blue\">pak</span> v $G$ neexistuje kružnice obsahující hranu $e$.");
-    //     $("#proofBox").append("<p>Implikaci stanovíme ve tvaru $\\forall A \\rightarrow B$</p>");
-    //    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
-    //}
-
 }
 
 function previousStep() {
+    if (currentStep > 0) {
+        if (currentStep == 1) {
+            $('#btnPreviousStep').prop('disabled', true);
+            $('#divProofContainer').prop('hidden', true);
+            stepReset();
+        }
 
-    if (currentStep == 1) {
+        if (currentStep == 2) {
+            stepReset();
+            step1();
+        }
+
+        if (currentStep == 3) {
+            stepReset();
+            step1();
+            step2();
+        }
+
+        if (currentStep == 4) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+        }
+
+        if (currentStep == 5) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+        }
+
+        if (currentStep == 6) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+            step5();
+        }
+
+        if (currentStep == 7) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+            step5();
+            step6();
+        }
+
+        if (currentStep == 8) {
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+            step5();
+            step6();
+            step7();
+        }
+
+        if (currentStep == 9) {
+            $('#btnNextStep').prop('disabled', false);
+            stepReset();
+            step1();
+            step2();
+            step3();
+            step4();
+            step5();
+            step6();
+            step7();
+            step8();
+        }
+
         currentStep--;
-        $('#btnPreviousStep').prop('disabled', true);
-
-        var options = {
-            position: { x: 0, y: 0 },
-            scale: 1.0,
-            offset: { x: 0, y: 0 },
-            animation: {
-                duration: 1000,
-                easingFunction: "easeInOutQuad"
-            }
-        };
-
-        network.moveTo(options);
+        $("#spCurrentStep").text(currentStep);
     }
+}
 
+function stepReset() {
+    $("#proofBox").empty();
+    $("#divSentenceBox").empty();
+    $("#divNetworkDescription").empty();
+    nodes = new vis.DataSet([]);
+    edges = new vis.DataSet([]);
+    data = { nodes: nodes, edges: edges };
+    network = new vis.Network(container, data, options);
+}
+
+function step1() {
+    $("#proofBox").append("<p class=\"text-brown\"><b>Matematický zápis tvrzení</b></p>");
+    $("#proofBox").append("<p>$\\forall G = (V, E)$: <span class=\"text-blue\">Jestliže</span> $e$ je most v $G$, " +
+       "<span class=\"text-blue\">pak</span> v $G$ neexistuje kružnice obsahující hranu $e$.</p>");
+    $("#proofBox").append("<p>Implikaci stanovíme ve tvaru $\\forall A \\Rightarrow B$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+}
+
+function step2() {
+    $("#proofBox").append("<br/><p class=\"text-brown\"><b>Negace tvrzení<b></p>");
+    $("#proofBox").append("<p>Negaci implikace stanovíme jako " +
+        "$\\neg(\\forall (A \\rightarrow B)) \\longrightarrow (\\exists A \\wedge \\neg B)$</p>");
+    $("#proofBox").append("<p>Slovní interpretací $\\exists G$: <span class=\"text-red\">$e$ je most v $G$ </span>" +
+        "<span class=\"text-blue\">a zároveň</span> v $G$ <span class=\"text-green\"><u>existuje</u> kružnice</span> " +
+        "obsahující hranu $e$.</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divSentenceBox").empty();
+    $("#divSentenceBox").append("<p>DEFINICE MOSTU " +
+        "<br/>Hranu $e$ nazveme <u>mostem</u>, jestliže graf $G-e$ má více komponent než graf $G$.</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divSentenceBox"]);
+    $('#divSentenceBox').prop('hidden', false);
+
+    $("#divNetworkDescription").append("<p>Příklad grafu $G$, který obsahuje kružnici " +
+        "<span class=\"text-green\">$C$</span></p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Konstrukce grafu G
+    nodes.add({ id: 1, x: -200, y: -100, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 2, x: -200, y: -30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 3, x: -130, y: -65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 4, x: -130, y: 30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 5, x: -60, y: 70, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 6, x: -55, y: -115, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 7, x: -55, y: -30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 8, x: 30, y: -115, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 9, x: 25, y: -35, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 10, x: 20, y: 65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 11, x: 100, y: -55, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 12, x: 90, y: 25, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 13, x: 140, y: -145, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 14, x: 210, y: -65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 15, x: 180, y: 0, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+
+    edges.add({ id: 1, from: 1, to: 3 });
+    edges.add({ id: 2, from: 2, to: 3 });
+    edges.add({ id: 3, from: 2, to: 4 });
+    edges.add({ id: 4, from: 3, to: 4 });
+    edges.add({ id: 5, from: 3, to: 6 });
+    edges.add({ id: 6, from: 4, to: 5 });
+    edges.add({ id: 7, from: 5, to: 10 });
+    edges.add({ id: 8, from: 6, to: 7 });
+    edges.add({ id: 9, from: 6, to: 8 });
+    edges.add({ id: 10, from: 7, to: 10 });
+    edges.add({ id: 11, from: 8, to: 9 });
+    edges.add({ id: 12, from: 8, to: 11 });
+    edges.add({ id: 13, from: 8, to: 13 });
+    edges.add({ id: 14, from: 10, to: 12 });
+    edges.add({ id: 15, from: 11, to: 12 });
+    edges.add({ id: 16, from: 11, to: 14 });
+    edges.add({ id: 17, from: 12, to: 15 });
+    edges.add({ id: 18, from: 13, to: 14 });
+    edges.add({ id: 19, from: 13, to: 15 });
+    edges.add({ id: 20, from: 14, to: 15 });
+
+    // Vyznaceni kruznice C
+    nodes.update({ id: 3, color: { background: '#66BB6A' } });
+    nodes.update({ id: 4, color: { background: '#66BB6A' } });
+    nodes.update({ id: 5, color: { background: '#66BB6A' } });
+    nodes.update({ id: 6, color: { background: '#66BB6A' } });
+    nodes.update({ id: 8, color: { background: '#66BB6A' } });
+    nodes.update({ id: 11, color: { background: '#66BB6A' } });
+    nodes.update({ id: 10, color: { background: '#66BB6A' } });
+    nodes.update({ id: 12, color: { background: '#66BB6A' } });
+
+    edges.update({ id: 4, color: '66BB6A', width: 2 });
+    edges.update({ id: 5, color: '66BB6A', width: 2 });
+    edges.update({ id: 6, color: '66BB6A', width: 2 });
+    edges.update({ id: 7, color: '66BB6A', width: 2 });
+    edges.update({ id: 9, color: '66BB6A', width: 2 });
+    edges.update({ id: 12, color: '66BB6A', width: 2 });
+    edges.update({ id: 14, color: '66BB6A', width: 2 });
+    edges.update({ id: 15, color: '66BB6A', width: 2 });
+
+    // Priblizeni kamery
+    var options = {
+        position: { x: 0, y: -30 },
+        scale: 1.3,
+        offset: { x: 0, y: 0 },
+        animation: {
+            duration: 0,
+            easingFunction: "easeInOutQuad"
+        }
+    };
+    network.moveTo(options);
+}
+
+function step3() {
+    $("#proofBox").append("<br/><p>Pokud v $G$ existuje kružnice $C$ obsahující hranu $e=\\{x,y\\}$" +
+        "<br/>$\\Rightarrow$ pak v $G$ existují minimálně 2 $x$-$y$ cesty:</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $('#divSentenceBox').prop('hidden', true);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Volba libovolné hrany $e=\\{x,y\\}$ ležící na kružnici " +
+        "<span class=\"text-green\">$C$</span></p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Vyznaceni hrany e={x,y}
+    nodes.update({ id: 10, label: 'y' });
+    nodes.update({ id: 12, label: 'x' });
+    edges.update({ id: 14, label: '           e', font: { align: 'bottom' } });
+}
+
+function step4() {
+    $("#proofBox").append("<p id=\"pCurrent\">1. $P_{xy}=e=\\{x,y\\}$ (samotná hrana $e$)</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Cesta $x$-$y$ přímo přes hranu $e=\\{x,y\\}$");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Zruseni vyznaceni zbytku kruznice C
+    nodes.update({ id: 3, color: { background: '#FFFF00' } });
+    nodes.update({ id: 4, color: { background: '#FFFF00' } });
+    nodes.update({ id: 5, color: { background: '#FFFF00' } });
+    nodes.update({ id: 6, color: { background: '#FFFF00' } });
+    nodes.update({ id: 8, color: { background: '#FFFF00' } });
+    nodes.update({ id: 11, color: { background: '#FFFF00' } });
+
+    edges.update({ id: 4, color: '000000', width: 1 });
+    edges.update({ id: 5, color: '000000', width: 1 });
+    edges.update({ id: 6, color: '000000', width: 1 });
+    edges.update({ id: 7, color: '000000', width: 1 });
+    edges.update({ id: 9, color: '000000', width: 1 });
+    edges.update({ id: 12, color: '000000', width: 1 });
+    edges.update({ id: 15, color: '000000', width: 1 });
+
+    // Vyznaceni hrany e={x,y}
+    nodes.update({ id: 10, color: { background: '#9575CD' } });
+    nodes.update({ id: 12, color: { background: '#9575CD' } });
+    edges.update({ id: 14, color: '#9575CD', width: 2 });
+}
+
+function step5() {
+    $("#pCurrent").append("<br/>2. $P'_{xy}=C-e=(x,v_1,v_2,...,v_s,y)$ (kružnice bez hrany $e$)");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Cesta $x$-$y$ po kružnici bez hrany $e=\\{x,y\\}$");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Vyznaceni cesty x-y pres kruznici
+    nodes.update({ id: 3, color: { background: '#9575CD' } });
+    nodes.update({ id: 4, color: { background: '#9575CD' } });
+    nodes.update({ id: 5, color: { background: '#9575CD' } });
+    nodes.update({ id: 6, color: { background: '#9575CD' } });
+    nodes.update({ id: 8, color: { background: '#9575CD' } });
+    nodes.update({ id: 11, color: { background: '#9575CD' } });
+
+    edges.update({ id: 4, color: '#9575CD', width: 2 });
+    edges.update({ id: 5, color: '#9575CD', width: 2 });
+    edges.update({ id: 6, color: '#9575CD', width: 2 });
+    edges.update({ id: 7, color: '#9575CD', width: 2 });
+    edges.update({ id: 9, color: '#9575CD', width: 2 });
+    edges.update({ id: 12, color: '#9575CD', width: 2 });
+    edges.update({ id: 14, color: '#000000', width: 1 });
+    edges.update({ id: 15, color: '#9575CD', width: 2 });
+}
+
+function step6() {
+    $("#proofBox").append("<br/><p>Nyní ukážeme pro $\\forall u,v \\in V(G)$: jestliže $\\exists$ $uv$ - cesta " +
+        "$P_{uv}$ v $G$ " +
+        "<br/>$\\Rightarrow$ $\\exists$ $uv$ - cesta $P'_{uv}$ v $G-e$:</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Nyní v grafu $G-e$ zvolíme libovolné vrcholy $u$ a $v$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    resetGraphG();
+    // Vyznaceni vrcholu u a v
+    nodes.update({ id: 1, label: 'u' });
+    nodes.update({ id: 14, label: 'v' });
+
+    // Vyznaceni hrany e={x,y}
+    nodes.update({ id: 10, label: 'y' });
+    nodes.update({ id: 12, label: 'x' });
+    edges.update({ id: 14, label: '           e', font: { align: 'bottom' }, dashes: [7, 7],
+        title: "odebíraná hrana e", hidden: false });
+}
+
+function step7() {
+    $("#proofBox").append("<li>pokud v $G$ $uv$-cesta neobsahuje hranu $e$, pak $P'_{uv}=P_{uv}$</li>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Cesta $uv$ neobsahující hranu $e$ bude shodná v grafu $G-e$ jako v $G$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Vyznaceni cesty u-v bez hrany e
+    nodes.update({ id: 1, color: { background: '#B388FF' } });
+    nodes.update({ id: 3, color: { background: '#B388FF' } });
+    nodes.update({ id: 6, color: { background: '#B388FF' } });
+    nodes.update({ id: 8, color: { background: '#B388FF' } });
+    nodes.update({ id: 11, color: { background: '#B388FF' } });
+    nodes.update({ id: 14, color: { background: '#B388FF' } });
+
+    edges.update({ id: 1, color: '#B388FF', width: 2 });
+    edges.update({ id: 5, color: '#B388FF', width: 2 });
+    edges.update({ id: 9, color: '#B388FF', width: 2 });
+    edges.update({ id: 12, color: '#B388FF', width: 2 });
+    edges.update({ id: 16, color: '#B388FF', width: 2 });
+}
+
+function step8() {
+    $("#proofBox").append("<li>pokud v $G$ $uv$-cesta obsahuje hranu $e$, pak hranu $e$ v $P'_{uv}$ " +
+        "nahradíme $P'_{xy}$ ($x$-$y$ cestou po kružnici $C$), tím vznikne $uv$-sled v $G-e$:" +
+        "<br/><p class=\"text-center\">$(P_{uv}-e) \\cup P'_{xy} = (P_{uv}-e) \\cup(C-e)$<p/>" +
+        "$\\Rightarrow$ proto existuje i $uv$-cesta v $G-e$</li>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>V grafu $G$ lze cestu $uv$ vést přes hranu $e$</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    resetGraphG();
+    // Vyznaceni cesty u-v v grafu G obsahujici hranu e
+    nodes.update({ id: 2, label: 'u', color: { background: '#B388FF' } });
+    nodes.update({ id: 4, color: { background: '#B388FF' } });
+    nodes.update({ id: 5, color: { background: '#B388FF' } });
+    nodes.update({ id: 10, label: 'y', color: { background: '#B388FF' } });
+    nodes.update({ id: 12, label: 'x', color: { background: '#B388FF' } });
+    nodes.update({ id: 15, label: 'v', color: { background: '#B388FF' } });
+
+    edges.update({ id: 3, color: '#B388FF', width: 2 });
+    edges.update({ id: 6, color: '#B388FF', width: 2 });
+    edges.update({ id: 7, color: '#B388FF', width: 2 });
+    edges.update({ id: 14, color: '#B388FF', width: 2,
+        label: '           e', font: { align: 'bottom' }, dashes: [], hidden: false });
+    edges.update({ id: 17, color: '#B388FF', width: 2 });
+
+    // Vyznacit zbytek kruznice C
+    // nodes.update({ id: 3, color: { background: '#04A304' } });
+    // nodes.update({ id: 6, color: { background: '#04A304' } });
+    // nodes.update({ id: 8, color: { background: '#04A304' } });
+    // nodes.update({ id: 11, color: { background: '#04A304' } });
+    //
+    // edges.update({ id: 5, from: 3, to: 6, color: '#04A304', width: 2 });
+    // edges.update({ id: 9, from: 6, to: 8, color: '#04A304', width: 2 });
+    // edges.update({ id: 12, from: 8, to: 11, color: '#04A304', width: 2 });
+}
+
+/**
+ * Metoda pro vraceni grafu G do vychoziho stavu.
+ */
+function resetGraphG() {
+    nodes.update({ id: 1, x: -200, y: -100, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 2, x: -200, y: -30, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 3, x: -130, y: -65, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 4, x: -130, y: 30, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 5, x: -60, y: 70, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 6, x: -55, y: -115, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 7, x: -55, y: -30, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 8, x: 30, y: -115, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 9, x: 25, y: -35, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 10, x: 20, y: 65, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 11, x: 100, y: -55, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 12, x: 90, y: 25, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 13, x: 140, y: -145, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 14, x: 210, y: -65, label: '', color: { background: '#FFFF00', border: '#000000' } });
+    nodes.update({ id: 15, x: 180, y: 0, label: '', color: { background: '#FFFF00', border: '#000000' } });
+
+    edges.update({ id: 1, from: 1, to: 3, color: '000000', width: 1 });
+    edges.update({ id: 2, from: 2, to: 3, color: '000000', width: 1 });
+    edges.update({ id: 3, from: 2, to: 4, color: '000000', width: 1 });
+    edges.update({ id: 4, from: 3, to: 4, color: '000000', width: 1 });
+    edges.update({ id: 5, from: 3, to: 6, color: '000000', width: 1 });
+    edges.update({ id: 6, from: 4, to: 5, color: '000000', width: 1 });
+    edges.update({ id: 7, from: 5, to: 10, color: '000000', width: 1 });
+    edges.update({ id: 8, from: 6, to: 7, color: '000000', width: 1 });
+    edges.update({ id: 9, from: 6, to: 8, color: '000000', width: 1 });
+    edges.update({ id: 10, from: 7, to: 10, color: '000000', width: 1 });
+    edges.update({ id: 11, from: 8, to: 9, color: '000000', width: 1 });
+    edges.update({ id: 12, from: 8, to: 11, color: '000000', width: 1 });
+    edges.update({ id: 13, from: 8, to: 13, color: '000000', width: 1 });
+    edges.update({ id: 14, from: 10, to: 12, label: '', color: '000000', width: 1 });
+    edges.update({ id: 15, from: 11, to: 12, color: '000000', width: 1 });
+    edges.update({ id: 16, from: 11, to: 14, color: '000000', width: 1 });
+    edges.update({ id: 17, from: 12, to: 15, color: '000000', width: 1 });
+    edges.update({ id: 18, from: 13, to: 14, color: '000000', width: 1 });
+    edges.update({ id: 19, from: 13, to: 15, color: '000000', width: 1 });
+    edges.update({ id: 20, from: 14, to: 15, color: '000000', width: 1 });
 }
