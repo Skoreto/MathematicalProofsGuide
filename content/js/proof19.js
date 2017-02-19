@@ -84,11 +84,33 @@ var network = new vis.Network(container, data, options);
 
 var currentStep = 0;
 // Promenne animace
+var frame0Id;
 var frame1Id;
 var frame2Id;
+var frame3Id;
+var frame4Id;
+var frame5Id;
+var frame6Id;
+var frame7Id;
+var frame8Id;
+var frame9Id;
+var frame10Id;
+var frame11Id;
+var frame12Id;
+var frame13Id;
+var frame14Id;
+var frame15Id;
+var frame16Id;
+var frame17Id;
+var frame18Id;
+var frame19Id;
+var frame20Id;
+var frame21Id;
+var frame22Id;
+var frame23Id;
 
 function nextStep() {
-    if (currentStep <= 9) {
+    if (currentStep <= 8) {
         if (currentStep == 0) {
             $('#btnPreviousStep').prop('disabled', false);
             $('#divProofContainer').prop('hidden', false);
@@ -161,6 +183,7 @@ function previousStep() {
         }
 
         if (currentStep == 6) {
+            clearAllTimers();
             stepReset();
             step1();
             step2();
@@ -191,6 +214,7 @@ function previousStep() {
         }
 
         if (currentStep == 9) {
+            clearAllTimers();
             $('#btnNextStep').prop('disabled', false);
             stepReset();
             step1();
@@ -407,8 +431,20 @@ function step6() {
     // Vyznaceni hrany e={x,y}
     nodes.update({ id: 10, label: 'y' });
     nodes.update({ id: 12, label: 'x' });
-    edges.update({ id: 14, label: '           e', font: { align: 'bottom' }, dashes: [7, 7],
-        title: "odebíraná hrana e", hidden: false });
+
+    clearAllTimers();
+    // Animace odebirani hrany e
+    frame0();
+    function frame0() {
+        edges.update({ id: 14, label: '           e', font: { align: 'bottom' }, dashes: [7, 7],
+            title: "odebíraná hrana e", hidden: false });
+        frame1Id = setTimeout(frame1, 2000);
+    }
+
+    function frame1() {
+        edges.update({ id: 14, hidden: true });
+        frame0Id = setTimeout(frame0, 2000);
+    }
 }
 
 function step7() {
@@ -432,6 +468,25 @@ function step7() {
     edges.update({ id: 9, color: '#B388FF', width: 2 });
     edges.update({ id: 12, color: '#B388FF', width: 2 });
     edges.update({ id: 16, color: '#B388FF', width: 2 });
+
+    clearAllTimers();
+    // Animace odebirani hrany e
+    frame0();
+    function frame0() {
+        edges.update({ id: 14, label: '           e', font: { align: 'bottom' }, dashes: [],
+            title: "odebíraná hrana e", hidden: false });
+        frame1Id = setTimeout(frame1, 1000);
+    }
+
+    function frame1() {
+        edges.update({ id: 14, dashes: [7, 7] });
+        frame2Id = setTimeout(frame2, 1000);
+    }
+
+    function frame2() {
+        edges.update({ id: 14, hidden: true });
+        frame0Id = setTimeout(frame0, 1000);
+    }
 }
 
 function step8() {
@@ -445,6 +500,7 @@ function step8() {
     $("#divNetworkDescription").append("<p>V grafu $G$ lze cestu $uv$ vést přes hranu $e$</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 
+    clearAllTimers();
     resetGraphG();
     // Vyznaceni cesty u-v v grafu G obsahujici hranu e
     nodes.update({ id: 2, label: 'u', color: { background: '#B388FF' } });
@@ -470,6 +526,166 @@ function step8() {
     // edges.update({ id: 5, from: 3, to: 6, color: '#04A304', width: 2 });
     // edges.update({ id: 9, from: 6, to: 8, color: '#04A304', width: 2 });
     // edges.update({ id: 12, from: 8, to: 11, color: '#04A304', width: 2 });
+}
+
+function step9() {
+    $("#proofBox").append("<br/><p>$\\Rightarrow$ Počet komponent $G-e$ je stejný jako počet komponent $G$." +
+        "<br/>$\\Rightarrow$ Poté z definice mostu vyplývá, že $e$ není most, což je spor s předpokladem.</p>");
+    $("#proofBox").append("<p class=\"text-center\">$\\dagger$ Proto platí původní tvrzení.</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "proofBox"]);
+
+    $("#divSentenceBox").empty();
+    $("#divSentenceBox").append("<p>DEFINICE MOSTU " +
+        "<br/>Hranu $e$ nazveme <u>mostem</u>, jestliže graf $G-e$ má více komponent než graf $G$.</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divSentenceBox"]);
+    $('#divSentenceBox').prop('hidden', false);
+
+    $("#divNetworkDescription").empty();
+    $("#divNetworkDescription").append("<p>Protože v grafu $G-e$ nemůže $uv$-cesta vést přes hranu $e$, " +
+        "nahradíme hranu $e$ $xy$-cestou  po kružnici $C$." +
+        "<br/>Tím vznikne $uv$-sled $S_{uv}$ v $G-e$.</p>");
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Animace vyznaceni cesty u-v v grafu G-e
+    frame0();
+    function frame0() {
+        resetGraphG();
+        // Vyznaceni vrcholu u,v,x,y
+        nodes.update({ id: 2, label: 'u' });
+        nodes.update({ id: 10, label: 'y' });
+        nodes.update({ id: 12, label: 'x' });
+        nodes.update({ id: 15, label: 'v' });
+        // Schovani hrany e
+        edges.update({ id: 14, hidden: true });
+
+        frame1Id = setTimeout(frame1, 1000);
+    }
+
+    function frame1() {
+        nodes.update({ id: 2, color: { background: '#82B1FF' } });
+        frame2Id = setTimeout(frame2, 1000);
+    }
+
+    function frame2() {
+        edges.update({ id: 3, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame3Id = setTimeout(frame3, 1000);
+    }
+
+    function frame3() {
+        edges.update({ id: 3, arrows: '' });
+        nodes.update({ id: 4, color: { background: '#82B1FF' } });
+        frame4Id = setTimeout(frame4, 1000);
+    }
+
+    function frame4() {
+        edges.update({ id: 6, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame5Id = setTimeout(frame5, 1000);
+    }
+
+    function frame5() {
+        edges.update({ id: 6, arrows: '' });
+        nodes.update({ id: 5, color: { background: '#82B1FF' } });
+        frame6Id = setTimeout(frame6, 1000);
+    }
+
+    function frame6() {
+        edges.update({ id: 7, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame7Id = setTimeout(frame7, 1000);
+    }
+
+    function frame7() {
+        edges.update({ id: 7, arrows: '' });
+        nodes.update({ id: 10, color: { background: '#82B1FF' } });
+        frame8Id = setTimeout(frame8, 1000);
+    }
+
+    function frame8() {
+        edges.update({ id: 7, color: '#448AFF', width: 2, arrows: 'from' });
+        frame9Id = setTimeout(frame9, 1000);
+    }
+
+    function frame9() {
+        edges.update({ id: 7, width: 3, arrows: '' });
+        nodes.update({ id: 5, color: { background: '#448AFF' } });
+        frame10Id = setTimeout(frame10, 1000);
+    }
+
+    function frame10() {
+        edges.update({ id: 6, color: '#448AFF', width: 2, arrows: 'from' });
+        frame11Id = setTimeout(frame11, 1000);
+    }
+
+    function frame11() {
+        edges.update({ id: 6, width: 3, arrows: '' });
+        nodes.update({ id: 4, color: { background: '#448AFF' } });
+        frame12Id = setTimeout(frame12, 1000);
+    }
+
+    function frame12() {
+        edges.update({ id: 4, color: '#82B1FF', width: 2, arrows: 'from' });
+        frame13Id = setTimeout(frame13, 1000);
+    }
+
+    function frame13() {
+        edges.update({ id: 4, arrows: '' });
+        nodes.update({ id: 3, color: { background: '#82B1FF' } });
+        frame14Id = setTimeout(frame14, 1000);
+    }
+
+    function frame14() {
+        edges.update({ id: 5, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame15Id = setTimeout(frame15, 1000);
+    }
+
+    function frame15() {
+        edges.update({ id: 5, arrows: '' });
+        nodes.update({ id: 6, color: { background: '#82B1FF' } });
+        frame16Id = setTimeout(frame16, 1000);
+    }
+
+    function frame16() {
+        edges.update({ id: 9, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame17Id = setTimeout(frame17, 1000);
+    }
+
+    function frame17() {
+        edges.update({ id: 9, arrows: '' });
+        nodes.update({ id: 8, color: { background: '#82B1FF' } });
+        frame18Id = setTimeout(frame18, 1000);
+    }
+
+    function frame18() {
+        edges.update({ id: 12, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame19Id = setTimeout(frame19, 1000);
+    }
+
+    function frame19() {
+        edges.update({ id: 12, arrows: '' });
+        nodes.update({ id: 11, color: { background: '#82B1FF' } });
+        frame20Id = setTimeout(frame20, 1000);
+    }
+
+    function frame20() {
+        edges.update({ id: 15, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame21Id = setTimeout(frame21, 1000);
+    }
+
+    function frame21() {
+        edges.update({ id: 15, arrows: '' });
+        nodes.update({ id: 12, color: { background: '#82B1FF' } });
+        frame22Id = setTimeout(frame22, 1000);
+    }
+
+    function frame22() {
+        edges.update({ id: 17, color: '#82B1FF', width: 2, arrows: 'to' });
+        frame23Id = setTimeout(frame23, 1000);
+    }
+
+    function frame23() {
+        edges.update({ id: 17, arrows: '' });
+        nodes.update({ id: 15, color: { background: '#82B1FF' } });
+        frame0Id = setTimeout(frame0, 3000);
+    }
 }
 
 /**
@@ -512,4 +728,35 @@ function resetGraphG() {
     edges.update({ id: 18, from: 13, to: 14, color: '000000', width: 1 });
     edges.update({ id: 19, from: 13, to: 15, color: '000000', width: 1 });
     edges.update({ id: 20, from: 14, to: 15, color: '000000', width: 1 });
+}
+
+/**
+ * Metoda pro zastaveni vsech casovacu spousteni framu animaci.
+ * Zastavi veskere bezici animace.
+ */
+function clearAllTimers() {
+    clearTimeout(frame0Id);
+    clearTimeout(frame1Id);
+    clearTimeout(frame2Id);
+    clearTimeout(frame3Id);
+    clearTimeout(frame4Id);
+    clearTimeout(frame5Id);
+    clearTimeout(frame6Id);
+    clearTimeout(frame7Id);
+    clearTimeout(frame8Id);
+    clearTimeout(frame9Id);
+    clearTimeout(frame10Id);
+    clearTimeout(frame11Id);
+    clearTimeout(frame12Id);
+    clearTimeout(frame13Id);
+    clearTimeout(frame14Id);
+    clearTimeout(frame15Id);
+    clearTimeout(frame16Id);
+    clearTimeout(frame17Id);
+    clearTimeout(frame18Id);
+    clearTimeout(frame19Id);
+    clearTimeout(frame20Id);
+    clearTimeout(frame21Id);
+    clearTimeout(frame22Id);
+    clearTimeout(frame23Id);
 }
