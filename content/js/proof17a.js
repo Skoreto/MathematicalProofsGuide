@@ -232,6 +232,18 @@ function step1() {
 
     $("#divNetworkDescription").append("<p>Příklad grafu $G$</p>");
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
+
+    // Priblizeni kamery
+    var options = {
+        position: { x: 0, y: 0 },
+        scale: 1.4,
+        offset: { x: 0, y: 0 },
+        animation: {
+            duration: 0,
+            easingFunction: "easeInOutQuad"
+        }
+    };
+    network.moveTo(options);
 }
 
 function step2() {
