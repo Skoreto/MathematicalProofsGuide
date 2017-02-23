@@ -106,7 +106,7 @@ var options = {
         multiselect: true,
         navigationButtons: true,
         selectable: true,
-        selectConnectedEdges: true,
+        selectConnectedEdges: false,
         tooltipDelay: 0,
         zoomView: true
     }

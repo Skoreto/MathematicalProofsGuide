@@ -66,16 +66,16 @@ var options = {
         hideEdgesOnDrag: false,
         hideNodesOnDrag: false,
         hover: true,
-        hoverConnectedEdges: true,
+        hoverConnectedEdges: false,
         keyboard: {
             enabled: false,
             speed: { x: 10, y: 10, zoom: 0.02 },
             bindToWindow: true
         },
-        multiselect: false,
+        multiselect: true,
         navigationButtons: true,
         selectable: true,
-        selectConnectedEdges: true,
+        selectConnectedEdges: false,
         tooltipDelay: 0,
         zoomView: true
     }

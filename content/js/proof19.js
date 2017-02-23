@@ -63,7 +63,7 @@ var options = {
         hideEdgesOnDrag: false,
         hideNodesOnDrag: false,
         hover: true,
-        hoverConnectedEdges: true,
+        hoverConnectedEdges: false,
         keyboard: {
             enabled: false,
             speed: { x: 10, y: 10, zoom: 0.02 },
