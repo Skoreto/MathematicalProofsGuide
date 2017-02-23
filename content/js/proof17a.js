@@ -14,11 +14,11 @@ var locales = {
         editNode: 'Upravit vrchol',
         editEdge: 'Upravit hranu',
         addDescription: 'Klikněte do prázdného prostoru pro umístění nového vrcholu.',
-        edgeDescription: 'Klikněte na vrchol a táhnutím hrany ji spojte s jiným vrcholem.',
-        editEdgeDescription: 'Click on the control points and drag them to a node to connect to it.',
-        createEdgeError: 'Cannot link edges to a cluster.',
-        deleteClusterError: 'Clusters cannot be deleted.',
-        editClusterError: 'Clusters cannot be edited.'
+        edgeDescription: 'Táhnutím hrany od vybraného vrcholu ji spojte s jiným vrcholem.',
+        editEdgeDescription: 'Přetáhněte konec hrany na vrchol, se kterým ji chcete spojit.',
+        createEdgeError: 'Nelze připojit hrany ke clusteru.',
+        deleteClusterError: 'Clustery nemohou být smazány.',
+        editClusterError: 'Clustery nemohou být upraveny.'
     }
 };
 
@@ -47,9 +47,40 @@ var options = {
     manipulation: {
         enabled: true,
         initiallyActive: false,
-        addNode: true,
-        addEdge: true,
-        editNode: true,
+        addNode: function(nodeData, callback) {
+            // Nastaveni parametru noveho vrcholu
+            var color = { background:'#FFFF00', border:'#000000' };
+            var shadow = { enabled: false };
+            nodeData.shape = 'dot';
+            nodeData.size = 18;
+            nodeData.label = null;
+            nodeData.color = color;
+            nodeData.borderWidth = 1;
+            nodeData.shadow = shadow;
+            callback(nodeData);
+        },
+        addEdge: function (data, callback) {
+            data.color = '#000000';
+
+            if (data.from == data.to) {
+                var r = confirm("Opravdu chcete propojit vrchol se sebou samým?");
+                if (r == true) {
+                    callback(data);
+                }
+            }
+            else {
+                callback(data);
+            }
+        },
+        editNode: function (nodeData, callback) {
+            // Predvyplneni dialog upravy vrcholu aktualnimi daty
+            document.getElementById('inpNodeLabel').value = nodeData.label;
+            document.getElementById('inpColorBackground').value = nodeData.color.background;
+            document.getElementById('inpNodeSize').value = nodeData.size;
+            document.getElementById('btnSave').onclick = saveNode.bind(this, nodeData, callback);
+            document.getElementById('btnCancel').onclick = cancelNodeEdit.bind(this, callback);
+            document.getElementById('editNodeDialog').style.display = 'block';
+        },
         editEdge: true,
         deleteNode: true,
         deleteEdge: true,
@@ -79,6 +110,36 @@ var options = {
 
 };
 var network = new vis.Network(container, data, options);
+
+/**
+ * Metoda pro shovani dialogu pro upravu vrcholu.
+ */
+function clearNodeDialog() {
+    document.getElementById('btnSave').onclick = null;
+    document.getElementById('btnCancel').onclick = null;
+    document.getElementById('editNodeDialog').style.display = 'none';
+}
+
+/**
+ * Metoda pro zruseni uprav vrcholu.
+ */
+function cancelNodeEdit(callback) {
+    clearNodeDialog();
+    callback(null);
+}
+
+/**
+ * Metoda pro ulozeni uprav vrcholu z dialogu.
+ */
+function saveNode(nodeData, callback) {
+    var shadow = { enabled: false };
+    nodeData.shadow = shadow;
+    nodeData.label = document.getElementById('inpNodeLabel').value;
+    nodeData.color.background = document.getElementById('inpColorBackground').value;
+    // nodeData.size = document.getElementById('inpNodeSize').value;
+    clearNodeDialog();
+    callback(nodeData);
+}
 
 var currentStep = 0;
 

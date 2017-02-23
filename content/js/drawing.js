@@ -133,6 +133,8 @@ function cancelNodeEdit(callback) {
  * Metoda pro ulozeni uprav vrcholu z dialogu.
  */
 function saveNode(nodeData, callback) {
+    var shadow = { enabled: false };
+    nodeData.shadow = shadow;
     nodeData.label = document.getElementById('inpNodeLabel').value;
     nodeData.color.background = document.getElementById('inpColorBackground').value;
     // nodeData.size = document.getElementById('inpNodeSize').value;
