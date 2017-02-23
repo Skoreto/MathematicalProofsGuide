@@ -1,5 +1,3 @@
-var isFixed = true;
-
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
 
@@ -31,7 +29,7 @@ var options = {
     locale: 'cs',
     locales: locales,
     clickToUse: false,
-    physics: true,
+    physics: false,
     layout: {},
     "edges": {
         "smooth": {
@@ -71,10 +69,10 @@ var options = {
             speed: { x: 10, y: 10, zoom: 0.02 },
             bindToWindow: true
         },
-        multiselect: false,
+        multiselect: true,
         navigationButtons: true,
         selectable: true,
-        selectConnectedEdges: true,
+        selectConnectedEdges: false,
         tooltipDelay: 0,
         zoomView: true
     }
@@ -270,21 +268,21 @@ function step2() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 
     // Konstrukce grafu G
-    nodes.add({ id: 1, x: -200, y: -100, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 2, x: -200, y: -30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 3, x: -130, y: -65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 4, x: -130, y: 30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 5, x: -60, y: 70, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 6, x: -55, y: -115, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 7, x: -55, y: -30, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 8, x: 30, y: -115, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 9, x: 25, y: -35, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 10, x: 20, y: 65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 11, x: 100, y: -55, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 12, x: 90, y: 25, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 13, x: 140, y: -145, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 14, x: 210, y: -65, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 15, x: 180, y: 0, fixed: isFixed, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 1, x: -200, y: -100, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 2, x: -200, y: -30, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 3, x: -130, y: -65, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 4, x: -130, y: 30, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 5, x: -60, y: 70, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 6, x: -55, y: -115, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 7, x: -55, y: -30, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 8, x: 30, y: -115, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 9, x: 25, y: -35, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 10, x: 20, y: 65, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 11, x: 100, y: -55, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 12, x: 90, y: 25, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 13, x: 140, y: -145, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 14, x: 210, y: -65, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 15, x: 180, y: 0, color: { background: '#FFFF00', border: '#000000' } });
 
     edges.add({ id: 1, from: 1, to: 3 });
     edges.add({ id: 2, from: 2, to: 3 });

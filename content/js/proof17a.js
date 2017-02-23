@@ -1,5 +1,3 @@
-var isFixed = true;
-
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
 
@@ -31,7 +29,7 @@ var options = {
     locale: 'cs',
     locales: locales,
     clickToUse: false,
-    physics: true,
+    physics: false,
     layout: {},
     "edges": {
         "smooth": {
@@ -158,12 +156,9 @@ function stepReset() {
 
 function step1() {
     // Vytvoreni vychoziho grafu
-    nodes.add({ id: 1, label: 'u', x: -200, y: 0, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 2, label: 'w', x: 0, y: 0, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 3, label: 'v', x: 200, y: 0, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 1, label: 'u', x: -200, y: 0, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 2, label: 'w', x: 0, y: 0, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 3, label: 'v', x: 200, y: 0, color: { background: '#ffff08', border: '#000000' } });
 
     edges.add({ id: 1, from: 1, to: 2, label: '                     e1', font: { align: 'bottom' }});
     edges.add({ id: 2, from: 2, to: 3, label: '                     e2', font: { align: 'bottom' }});

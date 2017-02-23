@@ -77,7 +77,6 @@ var options = {
         },
         editNode: function (nodeData, callback) {
             // Predvyplneni dialog upravy vrcholu aktualnimi daty
-            document.getElementById('inpNodeId').value = nodeData.id;
             document.getElementById('inpNodeLabel').value = nodeData.label;
             document.getElementById('inpColorBackground').value = nodeData.color.background;
             document.getElementById('inpNodeSize').value = nodeData.size;
@@ -98,13 +97,13 @@ var options = {
         hideEdgesOnDrag: false,
         hideNodesOnDrag: false,
         hover: true,
-        hoverConnectedEdges: true,
+        hoverConnectedEdges: false,
         keyboard: {
             enabled: false,
             speed: { x: 10, y: 10, zoom: 0.02 },
             bindToWindow: true
         },
-        multiselect: false,
+        multiselect: true,
         navigationButtons: true,
         selectable: true,
         selectConnectedEdges: true,
@@ -135,7 +134,6 @@ function cancelNodeEdit(callback) {
  * Metoda pro ulozeni uprav vrcholu z dialogu.
  */
 function saveNode(nodeData, callback) {
-    nodeData.id = document.getElementById('inpNodeId').value;
     nodeData.label = document.getElementById('inpNodeLabel').value;
     nodeData.color.background = document.getElementById('inpColorBackground').value;
     // nodeData.size = document.getElementById('inpNodeSize').value;

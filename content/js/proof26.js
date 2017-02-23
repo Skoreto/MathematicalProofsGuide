@@ -1,5 +1,3 @@
-var isFixed = true;
-
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
 
@@ -31,7 +29,7 @@ var options = {
     locale: 'cs',
     locales: locales,
     clickToUse: false,
-    physics: true,
+    physics: false,
     layout: {},
     "edges": {
         "smooth": {
@@ -159,22 +157,14 @@ function stepReset() {
 
 function step1() {
     // Vytvoreni grafu G
-    nodes.add({ id: 1, x: 0, y: -120, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 2, x: -50, y: -50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 3, x: -100, y: 20, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 4, x: 0, y: 20, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 5, x: -50, y: 90, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 6, x: 50, y: 90, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 7, x: 50, y: -50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 8, x: 100, y: 20, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 1, x: 0, y: -120, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 2, x: -50, y: -50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 3, x: -100, y: 20, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 4, x: 0, y: 20, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 5, x: -50, y: 90, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 6, x: 50, y: 90, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 7, x: 50, y: -50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 8, x: 100, y: 20, color: { background: '#ffff08', border: '#000000' } });
 
     edges.add({ id: 1, from: 1, to: 2 });
     edges.add({ id: 2, from: 2, to: 3 });

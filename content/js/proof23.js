@@ -263,14 +263,14 @@ function step2() {
     MathJax.Hub.Queue(["Typeset", MathJax.Hub, "divNetworkDescription"]);
 
     // Vytvoreni grafu G1 - dve kruznice se spolecnou hranou
-    nodes.add({ id: 1, x: -140, y: 0, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 2, x: -80, y: -70, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 3, x: -80, y: 70, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 4, x: 0, y: -40, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 5, x: 0, y: 40, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 6, x: 80, y: -70, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 7, x: 80, y: 70, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
-    nodes.add({ id: 8, x: 140, y: 0, physics: isPhysics, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 1, x: -140, y: 0, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 2, x: -80, y: -70, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 3, x: -80, y: 70, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 4, x: 0, y: -40, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 5, x: 0, y: 40, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 6, x: 80, y: -70, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 7, x: 80, y: 70, color: { background: '#FFFF00', border: '#000000' } });
+    nodes.add({ id: 8, x: 140, y: 0, color: { background: '#FFFF00', border: '#000000' } });
 
     edges.add({ id: 1, from: 1, to: 2 });
     edges.add({ id: 2, from: 1, to: 3 });

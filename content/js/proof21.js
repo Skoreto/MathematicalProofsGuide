@@ -1,5 +1,3 @@
-var isFixed = true;
-
 var nodes = new vis.DataSet([]);
 var edges = new vis.DataSet([]);
 
@@ -31,7 +29,7 @@ var options = {
     locale: 'cs',
     locales: locales,
     clickToUse: false,
-    physics: true,
+    physics: false,
     layout: {},
     "edges": {
         "smooth": {
@@ -71,10 +69,10 @@ var options = {
             speed: { x: 10, y: 10, zoom: 0.02 },
             bindToWindow: true
         },
-        multiselect: false,
+        multiselect: true,
         navigationButtons: true,
         selectable: true,
-        selectConnectedEdges: true,
+        selectConnectedEdges: false,
         tooltipDelay: 0,
         zoomView: true
     }
@@ -202,16 +200,11 @@ function step1() {
 
 function step2() {
     // Vytvoreni grafu G
-    nodes.add({ id: 1, x: -180, y: -40, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 2, x: -40, y: -100, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 3, x: -30, y: 50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 4, x: 110, y: -50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 5, x: 120, y: 80, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 1, x: -180, y: -40, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 2, x: -40, y: -100, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 3, x: -30, y: 50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 4, x: 110, y: -50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 5, x: 120, y: 80, color: { background: '#ffff08', border: '#000000' } });
 
     edges.add({ id: 1, from: 1, to: 2 });
     edges.add({ id: 2, from: 2, to: 3 });
@@ -273,16 +266,11 @@ function step4() {
 
 function step5() {
     // Vytvoreni grafu G-e
-    nodes.add({ id: 6, x: 200, y: -40, label: 'u', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 7, x: 340, y: -100, label: 'x', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 8, x: 350, y: 50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 9, x: 490, y: -50, label: 'y', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.add({ id: 10, x: 500, y: 80, label: 'v', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 6, x: 200, y: -40, label: 'u', color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 7, x: 340, y: -100, label: 'x', color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 8, x: 350, y: 50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 9, x: 490, y: -50, label: 'y', color: { background: '#ffff08', border: '#000000' } });
+    nodes.add({ id: 10, x: 500, y: 80, label: 'v', color: { background: '#ffff08', border: '#000000' } });
 
     edges.add({ id: 6, from: 6, to: 7 });
     edges.add({ id: 7, from: 7, to: 8 });
@@ -392,16 +380,11 @@ function step7() {
  * Metoda pro reset grafu G do vychozi podoby.
  */
 function resetGToDefault() {
-    nodes.update({ id: 1, x: -180, y: -40, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 2, x: -40, y: -100, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 3, x: -30, y: 50, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 4, x: 110, y: -50, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 5, x: 120, y: 80, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 1, x: -180, y: -40, label: '', color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 2, x: -40, y: -100, label: '', color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 3, x: -30, y: 50, label: '', color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 4, x: 110, y: -50, label: '', color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 5, x: 120, y: 80, label: '', color: { background: '#ffff08', border: '#000000' } });
 
     edges.update({ id: 1, from: 1, to: 2, label: '', color: '#000000', width: 1 });
     edges.update({ id: 2, from: 2, to: 3, label: '', color: '#000000', width: 1 });
@@ -414,16 +397,11 @@ function resetGToDefault() {
  * Metoda pro reset grafu G-e do vychozi podoby.
  */
 function resetGeToDefault() {
-    nodes.update({ id: 6, x: 200, y: -40, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 7, x: 340, y: -100, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 8, x: 350, y: 50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 9, x: 490, y: -50, fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
-    nodes.update({ id: 10, x: 500, y: 80, label: '', fixed: isFixed,
-        color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 6, x: 200, y: -40, label: '', color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 7, x: 340, y: -100, color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 8, x: 350, y: 50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 9, x: 490, y: -50, color: { background: '#ffff08', border: '#000000' } });
+    nodes.update({ id: 10, x: 500, y: 80, label: '', color: { background: '#ffff08', border: '#000000' } });
 
     edges.update({ id: 6, from: 6, to: 7, color: '#000000', width: 1 });
     edges.update({ id: 7, from: 7, to: 8, color: '#000000', width: 1 });
