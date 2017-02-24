@@ -141,3 +141,27 @@ function saveNode(nodeData, callback) {
     clearNodeDialog();
     callback(nodeData);
 }
+
+network.on("initRedraw", function () {
+    // do something like move some custom elements?
+});
+network.on("beforeDrawing", function (ctx) {
+    ctx.strokeStyle = '#A6D5F7';
+    ctx.fillStyle = '#294475';
+    ctx.circle(100, 100,50);
+    ctx.fill();
+    ctx.stroke();
+});
+network.on("afterDrawing", function (ctx) {
+    ctx.strokeStyle = '#294475';
+    ctx.lineWidth = 4;
+    ctx.fillStyle = '#A6D5F7';
+    ctx.circle(20,20 ,20);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.font="20px Georgia";
+    ctx.fillText("Hello World! $G$",10,80);
+
+    MathJax.Hub.Queue(["Typeset", MathJax.Hub, ctx]);
+});

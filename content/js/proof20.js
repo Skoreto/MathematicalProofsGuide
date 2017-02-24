@@ -143,7 +143,6 @@ function saveNode(nodeData, callback) {
 
 var currentStep = 0;
 // Promenne animace
-var intervalId;
 var frame1Id;
 var frame2Id;
 
