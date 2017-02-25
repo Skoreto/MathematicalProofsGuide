@@ -142,26 +142,66 @@ function saveNode(nodeData, callback) {
     callback(nodeData);
 }
 
-network.on("initRedraw", function () {
-    // do something like move some custom elements?
-});
-network.on("beforeDrawing", function (ctx) {
-    ctx.strokeStyle = '#A6D5F7';
-    ctx.fillStyle = '#294475';
-    ctx.circle(100, 100,50);
-    ctx.fill();
-    ctx.stroke();
-});
-network.on("afterDrawing", function (ctx) {
-    ctx.strokeStyle = '#294475';
-    ctx.lineWidth = 4;
-    ctx.fillStyle = '#A6D5F7';
-    ctx.circle(20,20 ,20);
-    ctx.fill();
-    ctx.stroke();
+// network.on("initRedraw", function () {
+//     // do something like move some custom elements?
+// });
+// network.on("beforeDrawing", function (ctx) {
+//     ctx.strokeStyle = '#A6D5F7';
+//     ctx.fillStyle = '#294475';
+//     ctx.circle(100, 100,50);
+//     ctx.fill();
+//     ctx.stroke();
+// });
+// network.on("afterDrawing", function (ctx) {
+//     ctx.strokeStyle = '#294475';
+//     ctx.lineWidth = 4;
+//     ctx.fillStyle = '#A6D5F7';
+//     ctx.circle(20,20 ,20);
+//     ctx.fill();
+//     ctx.stroke();
+//
+//     ctx.font="20px Georgia";
+//     ctx.fillText("Hello World! $G$",10,80);
+// });
 
-    ctx.font="20px Georgia";
-    ctx.fillText("Hello World! $G$",10,80);
+var isPenDrawActive = false;
+$("#chbPenDraw").on("click", function () {
+    if (!isPenDrawActive) {
+        isPenDrawActive = true;
 
-    MathJax.Hub.Queue(["Typeset", MathJax.Hub, ctx]);
+        var newOptions = {
+            interaction: {
+                dragNodes: true,
+                dragView: false
+            }
+        };
+        network.setOptions(newOptions);
+    } else {
+        isPenDrawActive = false;
+
+        var newOptions = {
+            interaction: {
+                dragNodes: true,
+                dragView: true
+            }
+        };
+        network.setOptions(newOptions);
+    }
+});
+
+network.on("click", function (params) {
+    if (isPenDrawActive) {
+        // {"nodes":[],"edges":[],"pointer":{"DOM":{"x": 364,"y": 305},"canvas":{"x": 1.3..,"y": 1.1..}},"event":"..."}
+        var paramsObject = JSON.parse(JSON.stringify(params, null, 4));
+        var x = paramsObject.pointer.canvas.x;
+        var y = paramsObject.pointer.canvas.y;
+
+        network.on("afterDrawing", function (context) {
+            context.fillStyle = '#294475';
+            context.lineJoin = "round";
+            context.lineWidth = 5;
+            context.circle(x ,y ,1);
+            context.fill();
+        });
+    }
 });
